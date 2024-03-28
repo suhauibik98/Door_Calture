@@ -1,0 +1,8 @@
+.slider-image{
+    width: 30%;
+    height: 30%;
+    aspect-ratio: 1/1;
+}
+.image-slider-container{
+    text-align: center;
+}

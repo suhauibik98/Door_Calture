@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Dnd from "./components/Dnd";
+import Slider from "./components/Slider";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 function App() {
+  const images = [
+    "/images/i0.jpg",
+    "/images/i1.jpg",
+    "/images/i2.jpg",
+    "/images/i3.jpg",
+    "/images/i4.jpg",
+   
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+      <Router>
+        <Routes>
+          <Route path="/" exact element={<Slider images={images}/>}/>
+          <Route path="/Drag&Drop"  element={<Dnd/>}/>
+        </Routes>
+      </Router>
+      
+      </>
+
   );
 }
 
