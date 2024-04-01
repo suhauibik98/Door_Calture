@@ -1,43 +1,94 @@
-import React, { useState } from "react";
-import { Stage, Layer, Image, Text, Group } from "react-konva";
+import React, { useState, useRef, useEffect } from "react";
+import { Stage, Layer, Image, Text, Group, Transformer } from "react-konva";
 import useImage from "use-image";
 
-const URLImage = ({ image }) => {
-  const [img] = useImage(image.src);
-  const [rotation, setRotation] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
-  const handleRotate = () => {
-    setRotation(rotation + 45); // Rotate by 45 degrees on each click
+const URLImage = ({ image,onClick }) => {
+  const [img] = useImage(image.src);
+  const [hover, setHover] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const trRef = useRef();
+  const shapeRef = useRef();
+  const textRef = useRef();
+
+  useEffect(() => {
+    if (isSelected) {
+      // Attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  useEffect(() => {
+    const node = shapeRef.current;
+    // console.log(imageSize);
+    if (node) {
+      setImageSize({
+        width: node.width() * node.scaleX(),
+        height: node.height() * node.scaleY(),
+      });
+    }
+  }, [img]);
+
+  const handleSelect = () => {
+    setIsSelected((prev) => !prev);
+  };
+
+  const handleDeselect = () => {
+    setHover(false);
+  };
+
+  const handleTransformEnd = () => {
+    const node = trRef.current.node();
+    if (node) {
+      const scaleX = node.scaleX();
+      const scaleY = node.scaleY();
+      setImageSize({
+        width: node.width() * scaleX,
+        height: node.height() * scaleY,
+      });
+    }
   };
 
   return (
     <Group
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={handleDeselect}
       draggable
+      onClick={handleSelect}
+      onTap={handleSelect} // For touch devices
     >
       <Image
+        ref={shapeRef}
         image={img}
         x={image.x}
+        width={100}
+        height={100}
         y={image.y}
-        // Set origin to the center of the image
-        offsetX={img ? img.width / 2 : 0}
-        offsetY={img ? img.height / 2 : 0}
-        rotation={rotation}
-        onClick={handleRotate}
+        onClick={onClick}
+        offsetX={img ? img.width / 10 : 0}
+        offsetY={img ? img.height / 10 : 0}
       />
-      {isHovered && (
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          rotateEnabled={true}
+          flipEnabled={false}
+          onTransformEnd={handleTransformEnd}
+        />
+      )}
+      {isSelected && (
         <Text
+          ref={textRef}
           fill="red"
-          width={100}
-          height={100}
-          fontSize={100}
-          x={image.x + (img ? img.width / 2 : 0)} // Position relative to Image
-          y={image.y - (img ? img.height / 2 : 0)} // Position relative to Image
-          offsetX={100} // Adjust to position text to the right
-          offsetY={-100} // Adjust to position text to the top
+          fontSize={30}
+          x={image.x + imageSize.width -70 }
+          y={image.y -70 }
+        //   offsetX={imageSize.width / 2 + 20} // Adjust for padding
+        //   offsetY={-imageSize.height / 2 - 20} // Adjust for padding
           text="X"
+          onClick={() => console.log("text")}
         />
       )}
     </Group>

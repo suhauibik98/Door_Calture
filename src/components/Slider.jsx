@@ -12,7 +12,7 @@ const Slider = ({ images }) => {
     }, 2000);
     const timeout = setTimeout(() => {
       setShowButton(true);
-    }, 15000);
+    }, 13000);
     return () => {
       clearInterval(interval);
       clearInterval(timeout);

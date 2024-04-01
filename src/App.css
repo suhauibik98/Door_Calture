@@ -3,4 +3,11 @@ body{
 }
 .App {
   text-align: center;
+  touch-action: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+canvas{
+  touch-action: none;
 }

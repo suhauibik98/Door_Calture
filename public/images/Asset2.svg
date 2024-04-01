@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 119.22 239.12">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: .3;
+      }
+    </style>
+  </defs>
+  <g id="Door_2" data-name="Door 2">
+    <polygon class="cls-1" points="108.94 0 9.47 0 0 0 0 10.09 0 239.12 9.47 239.12 9.47 10.09 108.94 10.09 108.94 239.12 119.22 239.12 119.22 10.09 119.22 0 108.94 0"/>
+  </g>
+</svg>
