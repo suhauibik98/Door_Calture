@@ -51,7 +51,7 @@ const URLImage = ({ image,onClick }) => {
     }
   };
 
-  return (
+  return ( <>
     <Group
       onMouseEnter={() => setHover(true)}
       onMouseLeave={handleDeselect}
@@ -66,11 +66,28 @@ const URLImage = ({ image,onClick }) => {
         width={100}
         height={100}
         y={image.y}
-        onClick={onClick}
         offsetX={img ? img.width / 10 : 0}
         offsetY={img ? img.height / 10 : 0}
       />
+      
+      {/* {console.log(imageSize.height)} */}
       {isSelected && (
+        <Text
+          ref={textRef}
+          fill="green"
+          fontSize={30}
+          x={image.x }
+          y={image.y }
+          
+        //   
+        
+          text="X"
+          onClick={()=>{onClick(image)}}
+          onTap={()=>{onClick(image)}}
+        />
+      )}
+    </Group>
+    {isSelected && (
         <Transformer
           ref={trRef}
           rotateEnabled={true}
@@ -78,20 +95,7 @@ const URLImage = ({ image,onClick }) => {
           onTransformEnd={handleTransformEnd}
         />
       )}
-      {isSelected && (
-        <Text
-          ref={textRef}
-          fill="red"
-          fontSize={30}
-          x={image.x + imageSize.width -70 }
-          y={image.y -70 }
-        //   offsetX={imageSize.width / 2 + 20} // Adjust for padding
-        //   offsetY={-imageSize.height / 2 - 20} // Adjust for padding
-          text="X"
-          onClick={() => console.log("text")}
-        />
-      )}
-    </Group>
+   </>
   );
 };
 
